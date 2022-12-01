@@ -21,7 +21,7 @@ class Answer(models.Model):
 
 class Test(models.Model):
     title = models.TextField()
-    question = models.ManyToManyField(Question)
+    questions = models.ManyToManyField(Question)
 
     def __str__(self):
         return self.title
