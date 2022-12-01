@@ -36,9 +36,16 @@ class QuestionAdmin(admin.ModelAdmin):
     get_answers.short_description = "Answers"
 
 
+class QuestionInLine(admin.TabularInline):
+    model = Test.questions.through
+    extra = 0
+
+
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):
     list_display = ("title", "get_questions")
+    exclude = ("questions", )
+    inlines = (QuestionInLine,)
 
     def get_questions(self, obj: Test):
         output = [question.title for question in obj.questions.all()]
