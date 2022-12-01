@@ -1,0 +1,12 @@
+{{ test.title }}<br><br>
+{% if test.questions %}
+    {% for q in test.questions.all %}
+        {{ q.title }}<br>
+            {% if q.answers %}
+                {% for a in q.answers.all %}
+                    <li>{{ a.title }}</li><br>
+                {% endfor %}
+            {% endif %}
+    {% endfor %}
+
+{% endif %}

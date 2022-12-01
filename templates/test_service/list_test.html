@@ -1,0 +1,7 @@
+{% if tests %}
+    {% for test in tests %}
+        <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
+    {% endfor %}
+{% else %}
+    <h1>No games are available</h1>
+{% endif %}
