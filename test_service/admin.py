@@ -6,7 +6,7 @@ from test_service.models import Answer, Question, Test
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ("title", "is_right")
+    list_display = ("title", "is_right", "question")
 
 
 class AnswerInLine(admin.TabularInline):
@@ -19,15 +19,15 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ("title", "get_answers")
     inlines = (AnswerInLine,)
 
-    def save_model(self, request, obj, form, change):
-        answers = obj.answers.all()
-        true_answers = answers.filter(is_right=True).count()
-        false_answers = answers.filter(is_right=True).count()
-        if not true_answers:
-            raise ValueError("At least one answer must be correct.")
-        if not false_answers:
-            raise ValueError("At least one answer must be wrong.")
-        super().save_model(request, obj, form, change)
+    # def save_model(self, request, obj, form, change):
+    #     answers = obj.answers.all()
+    #     true_answers = answers.filter(is_right=True).count()
+    #     false_answers = answers.filter(is_right=True).count()
+    #     if not true_answers:
+    #         raise ValueError("At least one answer must be correct.")
+    #     if not false_answers:
+    #         raise ValueError("At least one answer must be wrong.")
+    #     super().save_model(request, obj, form, change)
 
     def get_answers(self, obj: Question):
         output = [answer.title for answer in obj.answers.all()]
