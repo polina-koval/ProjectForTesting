@@ -48,7 +48,8 @@ class TestDetailView(DetailView):
                 ):
                     total += 1
             return HttpResponse(
-                f"Your result: {total}/{test.questions.count()}",
+                f"Your result: {total}/{test.questions.count()} - "
+                f"{total/test.questions.count()*100}%",
                 content_type="text/plain",
             )
         return HttpResponseBadRequest("You didn't answer all the questions.")
