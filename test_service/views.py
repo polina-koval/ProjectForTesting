@@ -45,11 +45,13 @@ class TestDetailView(DetailView):
             for q in questions:
                 if set(q.answers.filter(is_right=True)).issubset(
                     set(answers_objects)
+                ) and not q.answers.filter(
+                    is_right=False, pk__in=answers_objects
                 ):
                     total += 1
             return HttpResponse(
                 f"Your result: {total}/{test.questions.count()} - "
-                f"{total/test.questions.count()*100}%",
+                f"{round(total/test.questions.count()*100)}%",
                 content_type="text/plain",
             )
         return HttpResponseBadRequest("You didn't answer all the questions.")
