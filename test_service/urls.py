@@ -17,6 +17,6 @@ urlpatterns = [
         ),
         name="logout",
     ),
-    path("test/", TestListView.as_view(), name="test_list"),
+    path("", TestListView.as_view(), name="test_list"),
     path("test/<pk>/", TestDetailView.as_view(), name="test_detail"),
 ]
