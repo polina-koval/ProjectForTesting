@@ -16,7 +16,7 @@ class AnswerInLine(admin.StackedInline):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ("title", "get_answers")
+    list_display = ("title", "get_answers", "get_tests")
     inlines = (AnswerInLine,)
 
     def save_formset(self, request, form, formset, change):
@@ -43,7 +43,12 @@ class QuestionAdmin(admin.ModelAdmin):
         output = [answer.title for answer in obj.answers.all()]
         return format_html("<br />".join(output))
 
+    def get_tests(self, obj: Question):
+        output = [test.title for test in obj.tests.all()]
+        return format_html("<br />".join(output))
+
     get_answers.short_description = "Answers"
+    get_tests.short_description = "Tests"
 
 
 class QuestionInLine(admin.TabularInline):
