@@ -1,7 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
 {% if tests %}
     {% for test in tests %}
-        <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a>
+        <a href="{% url 'test_detail' test.id %}">{{ test.title }}</a><br>
     {% endfor %}
 {% else %}
     <h1>No games are available</h1>
 {% endif %}
+
+{% endblock %}
