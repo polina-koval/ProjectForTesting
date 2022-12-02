@@ -20,6 +20,10 @@ class QuestionAdmin(admin.ModelAdmin):
     inlines = (AnswerInLine,)
 
     def save_formset(self, request, form, formset, change):
+        """
+        Does not save questions with only incorrect and only correct answers.
+        There must be at least one right and wrong answer.
+        """
         formset.save()
         true_answers, false_answers = 0, 0
         for f in formset.forms:

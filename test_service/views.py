@@ -10,6 +10,7 @@ from .forms import NewUserForm
 
 
 def register_request(request):
+    """Register new user"""
     if request.method == "POST":
         form = NewUserForm(request.POST)
         if form.is_valid():
@@ -34,6 +35,7 @@ class TestDetailView(DetailView):
     template_name = "test_service/detail_test.html"
 
     def post(self, request, pk):
+        """Check test answers and return result"""
         total = 0
         answers = request.POST.getlist("answer")
         answers_objects = Answer.objects.filter(pk__in=answers)
