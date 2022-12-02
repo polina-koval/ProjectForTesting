@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView
 
@@ -47,10 +47,11 @@ class TestDetailView(DetailView):
                     set(answers_objects)
                 ):
                     total += 1
-        return HttpResponse(
-            f"Your result: {total}/{test.questions.count()}",
-            content_type="text/plain",
-        )
+            return HttpResponse(
+                f"Your result: {total}/{test.questions.count()}",
+                content_type="text/plain",
+            )
+        return HttpResponseBadRequest("You didn't answer all the questions.")
 
 
 class TestListView(ListView):
