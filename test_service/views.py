@@ -1,9 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import login
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic import DetailView, ListView
 
-from test_service.models import Test
+from test_service.models import Answer, Question, Test
 
 from .forms import NewUserForm
 
@@ -31,6 +32,25 @@ class TestDetailView(DetailView):
     model = Test
     context_object_name = "test"
     template_name = "test_service/detail_test.html"
+
+    def post(self, request, pk):
+        total = 0
+        answers = request.POST.getlist("answer")
+        answers_objects = Answer.objects.filter(pk__in=answers)
+        questions = Question.objects.filter(
+            pk__in=answers_objects.values_list("question__pk")
+        )
+        test = Test.objects.get(pk=pk)
+        if list(questions) == list(test.questions.all()):
+            for q in questions:
+                if set(q.answers.filter(is_right=True)).issubset(
+                    set(answers_objects)
+                ):
+                    total += 1
+        return HttpResponse(
+            f"Your result: {total}/{test.questions.count()}",
+            content_type="text/plain",
+        )
 
 
 class TestListView(ListView):
